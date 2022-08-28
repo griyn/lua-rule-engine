@@ -1,5 +1,7 @@
 #include "lua_engine.h"
 
+#include "lua_functions.h"
+
 namespace garden {
 
 LuaEngine::LuaEngine() {
@@ -17,10 +19,8 @@ int LuaEngine::init(const std::string& script) {
     luaL_openlibs(_lua);
 
     // 2. 注册提供的C++函数
-	/*lua_register(_lua, "get_pb_int", lua_functions::get_pb_int);
+	lua_register(_lua, "get_pb_int", lua_functions::get_pb_int);
     lua_register(_lua, "get_pb_string", lua_functions::get_pb_string);
-    lua_register(_lua, "get_ctrl_int", lua_functions::get_ctrl_int);
-    lua_register(_lua, "get_ctrl_string", lua_functions::get_ctrl_string);*/
 
 	// 3. 加载lua脚本 & 检查语法. 这里定义的lua函数不在脚本中定义的话不会被执行，类似sh
 	if (luaL_dostring(_lua, script.c_str()) != 0)  {
@@ -38,17 +38,22 @@ bool LuaEngine::is_function_exist(const std::string& f) {
     return ret;
 }
 
-int LuaEngine::call_lua_bool_function(const std::string& f, bool* res) {
+int LuaEngine::call_lua_bool_function(const std::string& f, bool* res, void* p) {
     lua_getglobal(_lua, f.c_str());
+
+    lua_pushlightuserdata(_lua, p);
+    lua_setglobal(_lua, "p");
 
     // 1.调用指定名字的lua函数，指定没有参数，有1个返回值
     if (lua_pcall(_lua, 0, 1, 0) != 0) {
+        std::cerr << "lua_pcall failed:" << lua_tostring(_lua, 1) << std::endl;
         lua_pop(_lua, 1);
         return -1;
     }
 
     // 2.判断返回值是否会bool
     if (!lua_isboolean(_lua, -1)) {
+        std::cerr << "lua_pcall return not bool" << std::endl;
         return -1;
     }
 
