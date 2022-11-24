@@ -16,13 +16,15 @@ bool get_params(lua_State* L, std::string& name, google::protobuf::Message*& mes
 		return false;
 	}
 
+	// 提取lua入参的字段名
 	if (lua_isstring(L, -1) != 1) {
 		std::cerr << "lua param should string" << std::endl;
 		return false;
 	}
 	name.assign(lua_tostring(L, -1));
 
-	lua_getglobal(L, "p");
+	// 从lua的全局区获得message变量
+	lua_getglobal(L, "p"); // 把对应名字的全局变量入栈，此时它在栈顶
 	if (lua_islightuserdata(L, -1) != 1) {
 		std::cerr << "lua global p should lightuserdata" << std::endl;
 		return false;
