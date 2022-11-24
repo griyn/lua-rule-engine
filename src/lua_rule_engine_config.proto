@@ -10,5 +10,5 @@ message RuleConfig {
     optional string name = 1;           // 名字，用于监控和日志
     optional string expr = 2;           // rule规则描述
     repeated string nexts = 3;          // 调用链
-	optional int32 n = 10;
+    optional int32 n = 10;
 }

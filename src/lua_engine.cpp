@@ -19,16 +19,16 @@ int LuaEngine::init(const std::string& script) {
     luaL_openlibs(_lua);
 
     // 2. 注册提供的C++函数
-	lua_register(_lua, "get_pb_int", lua_functions::get_pb_int);
+    lua_register(_lua, "get_pb_int", lua_functions::get_pb_int);
     lua_register(_lua, "get_pb_string", lua_functions::get_pb_string);
 
-	// 3. 加载lua脚本 & 检查语法. 这里定义的lua函数不在脚本中定义的话不会被执行，类似sh
-	if (luaL_dostring(_lua, script.c_str()) != 0)  {
+    // 3. 加载lua脚本 & 检查语法. 这里定义的lua函数不在脚本中定义的话不会被执行，类似sh
+    if (luaL_dostring(_lua, script.c_str()) != 0)  {
         lua_pop(_lua, 1);
         return -1;
     }
 
-	return 0;
+    return 0;
 }
 
 bool LuaEngine::is_function_exist(const std::string& f) {
