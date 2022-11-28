@@ -19,7 +19,7 @@ public:
     void run_rules();
 
 private:
-    LuaRuleChain();
+    LuaRuleChain() {};
 
     int init();
 
@@ -38,6 +38,7 @@ private:
     static std::string _conf;
     static thread_local LuaRuleChain _instance; // tls实例
     static thread_local bool _is_initialized; // 是否已初始化
+    static Accessor _accessor;
 };
 
 } // namespace garden

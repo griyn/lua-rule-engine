@@ -16,10 +16,13 @@ public:
     LuaEngine();
     virtual ~LuaEngine();
 
-    int init(const std::string& script);
+    bool add_script(const std::string& script);
 
     // 判断lua函数是否存在
     bool is_function_exist(const std::string& f);
+
+    // 判断lua全局变量是否存在
+    bool is_table_exist(const std::string& g);
 
     int call_lua_bool_function(const std::string& f, bool* res, void* p);
 

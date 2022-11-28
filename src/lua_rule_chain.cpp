@@ -2,8 +2,10 @@
 
 namespace garden {
 
+std::string LuaRuleChain::_conf {""};
 thread_local LuaRuleChain LuaRuleChain::_instance;
-thread_local bool LuaRuleChain::_is_initialized = false;
+thread_local bool LuaRuleChain::_is_initialized {false};
+LuaRuleChain::Accessor LuaRuleChain::_accessor;
 
 void LuaRuleChain::set_conf(const std::string& conf) {
     _conf = conf;
@@ -25,12 +27,12 @@ LuaRuleChain* LuaRuleChain::get_tls_instance() {
     return &_instance;
 }
 
-int init() {
+int LuaRuleChain::init() {
     // 读配置成功
     return 0;
 }
 
-void run_rules() {
+void LuaRuleChain::run_rules() {
     // 执行chain rules
 }
 

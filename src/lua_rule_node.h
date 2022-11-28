@@ -21,6 +21,9 @@ private:
     std::string _lua_function;
     LuaEngine _lua_engine;
     std::set<std::string> _nexts;
+
+    static std::string _find_in_dict;
+    static std::string _to_dict;
 };
 
 } // namespace garden
