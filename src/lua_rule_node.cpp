@@ -38,7 +38,10 @@ int LuaRuleNode::init(const RuleConfig& rule_config) {
     // 添加词典
     for (int i = 0; i < rule_config.dicts_size(); ++i) {
         const auto& dict = rule_config.dicts(i);
-        std::string dict_str = "tmp_dict = " + dict.data() + "\n" + dict.name() + "= to_dict(tmp_dict)";
+        std::string dict_str = 
+                "tmp_dict = " + dict.data() + "\n" 
+                + dict.name() + "= to_dict(tmp_dict)\n"
+                "tmp_dict = nil";
         if (!_lua_engine.add_script(dict_str)
                 || !_lua_engine.is_table_exist(dict.name())) {
             std::cerr << "lua_engine add dict_str error, dict_str:" << dict_str << std::endl;
